@@ -1,5 +1,7 @@
 import React from 'react';
 
-const Dashboard = () => <h1>Dashboard</h1>;
+import { Title } from './styles';
+
+const Dashboard = () => <Title>Explore repositórios no Github.</Title>;
 
 export default Dashboard;
