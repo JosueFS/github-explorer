@@ -1,5 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
+
+interface FormProps {
+  hasError: boolean;
+}
 
 export const Title = styled.h1`
   font-size: 48px;
@@ -11,7 +15,7 @@ export const Title = styled.h1`
 
 `;
 
-export const Form = styled.form`
+export const Form = styled.form<FormProps>`
   margin-top: 40px;
   max-width: 700px;
   display: flex;
@@ -23,6 +27,12 @@ export const Form = styled.form`
     border: 0;
     border-radius: 5px 0 0 5px;
     color: #3a3a3a;
+    border: 2px solid #FFF;
+    border-right: 0;
+
+    ${(props) => props.hasError && css`
+        border-color: #c53030;
+    `}
 
     &::placeholder {
       color: #a8a8b3;
@@ -50,6 +60,7 @@ export const Repositories = styled.div`
   max-width: 700px;
 
   a {
+    box-sizing: border-box;
     background: #FFF;
     border-radius: 5px;
     width: 100%;
@@ -60,13 +71,66 @@ export const Repositories = styled.div`
     display: flex;
     align-items: center;
     transition: transform 0.2s;
+    border: 2px solid transparent;
 
-    &:hover {
-      transform: translateX(10px);
-    }
+    position: relative;
+    box-shadow: inset 0 0 0 2px #FFF;
 
     & + a {
       margin-top: 16px;
+    }
+
+    &:hover{
+      transform: translateX(10px);
+    }
+
+    &::before,
+    &::after {
+      box-sizing: inherit;
+      content: '';
+      position: absolute;
+      border: 2px solid transparent;
+      width: 0;
+      height: 0;
+    }
+
+    &::before {
+      top: 0;
+      left: 0;
+    }
+
+    &::after {
+      bottom: 0;
+      right: 0;
+    }
+
+    &:active {
+      color: red;
+    }
+
+    &:active::before,
+    &:active::after {
+      width: 100%;
+      height: 100%;
+    }
+
+    &:active::before {
+      border-top-color: #ff4066;
+      border-right-color: #ff4066;
+      transition:
+        width 0.5s ease-out 0s,
+        height 0.5s ease-out 0.5s;
+    }
+
+    &:active::after {
+      border-bottom-color: #ff4066;
+      border-left-color: #ff4066;
+      background-color: #ff4066;
+      transition:
+        background-color 1s ease-out 2s,
+        border-color 0s ease-out 1s,
+        width 0.5s ease-out 1s,
+        height 0.5s ease-out 1.5s;
     }
 
     img {
@@ -96,4 +160,10 @@ export const Repositories = styled.div`
       color: #CBCBD6;
     }
   }
+`;
+
+export const Error = styled.span`
+  display: block;
+  color: #c53030;
+  margin-top: 8px;
 `;
